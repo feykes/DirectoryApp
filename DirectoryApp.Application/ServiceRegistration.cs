@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
+using DirectoryApp.Application.Mappings.ContactInfoMap;
+using DirectoryApp.Application.Mappings.PersonDetailMap;
 using DirectoryApp.Application.Mappings.PersonMap;
+using DirectoryApp.Application.Mappings.ReportDetailMap;
+using DirectoryApp.Application.Mappings.ReportMap;
+using DirectoryApp.Infrastructure.RabbitMQ;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,9 +25,14 @@ namespace DirectoryApp.Application
             {
                 opt.AddProfiles(new List<Profile>
                 {
-                    new PersonProfile()
+                    new PersonProfile(),
+                    new ContactInfoProfile(),
+                    new PersonDetailProfile(),
+                    new ReportProfile(),
+                    new ReportDetailProfile()
                 });
             });
+            services.AddScoped<MethodConsumer>();
         }
     }
 }

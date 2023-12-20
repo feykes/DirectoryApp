@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DirectoryApp.Application.Features.Queries.Person.PersonList
 {
-    public class PersonListQueryHandler : IRequestHandler<PersonListQueryRequest, ICollection<PersonListDto>>
+    public class PersonListQueryHandler : IRequestHandler<PersonListQueryRequest, List<PersonListDto>>
     {
         private readonly IPersonReadRepository _personReadRepository;
         private readonly IMapper _mapper;
@@ -22,10 +22,10 @@ namespace DirectoryApp.Application.Features.Queries.Person.PersonList
             _mapper = mapper;
         }
 
-        public async Task<ICollection<PersonListDto>> Handle(PersonListQueryRequest request, CancellationToken cancellationToken)
+        public async Task<List<PersonListDto>> Handle(PersonListQueryRequest request, CancellationToken cancellationToken)
         {
             var data = await _personReadRepository.GetAllAsync();
-            return _mapper.Map<ICollection<PersonListDto>>(data);
+            return _mapper.Map<List<PersonListDto>>(data);
 
         }
     }

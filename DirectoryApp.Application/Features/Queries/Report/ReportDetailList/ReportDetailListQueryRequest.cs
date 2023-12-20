@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DirectoryApp.Application.Features.Queries.Person.PersonList
+namespace DirectoryApp.Application.Features.Queries.Report.ReportDetailList
 {
-    public class PersonListQueryRequest : IRequest<List<PersonListDto>>
+    public class ReportDetailListQueryRequest : IRequest<List<ReportDetailListDto>>
     {
     }
 }
