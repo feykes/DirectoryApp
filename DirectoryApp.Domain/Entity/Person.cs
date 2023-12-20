@@ -13,6 +13,5 @@ namespace DirectoryApp.Domain.Entity
         public string Surname { get; set; }
         public string Company { get; set; }
         public ICollection<ContactInfo> ContactInfos { get; set; }
-        public ICollection<Report> Reports { get; set; }
     }
 }

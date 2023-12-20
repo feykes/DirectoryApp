@@ -9,7 +9,6 @@ namespace DirectoryApp.Application.Features.Commands.Person.PersonCreate
 {
     public class PersonCreateCommandRequest : IRequest<PersonCreateCommandResponse>
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Company { get; set; }

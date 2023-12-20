@@ -1,7 +1,10 @@
-﻿using DirectoryApp.Application.Features.Commands.ContactInfo.ContactInfoCreate;
+﻿using DirectoryApp.Application.DTOs;
+using DirectoryApp.Application.Features.Commands.ContactInfo.ContactInfoCreate;
 using DirectoryApp.Application.Features.Commands.ContactInfo.ContactInfoRemove;
 using DirectoryApp.Application.Features.Commands.Person.PersonCreate;
 using DirectoryApp.Application.Features.Commands.Person.PersonRemove;
+using DirectoryApp.Application.Features.Queries.ContactInfo.ContactInfoList;
+using DirectoryApp.Application.Features.Queries.Person.PersonDetailList;
 using DirectoryApp.Application.Features.Queries.Person.PersonList;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +55,20 @@ namespace DirectoryApp.WebAPI.Controllers
         public async Task<IActionResult> DeleteContactInfo(ContactInfoRemoveCommandRequest contactInfoRemoveCommandRequest)
         {
             var result = await _mediator.Send(contactInfoRemoveCommandRequest);
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetContactInfos()
+        {
+            var result = await _mediator.Send(new ContactInfoListQueryRequest());
+            return Ok(result);
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetPersonDetails()
+        {
+            var result = await _mediator.Send(new PersonDetailListQueryRequest());
             return Ok(result);
         }
     }

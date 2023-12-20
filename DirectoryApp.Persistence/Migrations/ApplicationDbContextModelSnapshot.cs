@@ -74,9 +74,6 @@ namespace DirectoryApp.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("PersonId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -97,32 +94,23 @@ namespace DirectoryApp.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PersonId");
-
                     b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("DirectoryApp.Domain.Entity.ContactInfo", b =>
                 {
-                    b.HasOne("DirectoryApp.Domain.Entity.Person", null)
+                    b.HasOne("DirectoryApp.Domain.Entity.Person", "Person")
                         .WithMany("ContactInfos")
                         .HasForeignKey("PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("DirectoryApp.Domain.Entity.Report", b =>
-                {
-                    b.HasOne("DirectoryApp.Domain.Entity.Person", null)
-                        .WithMany("Reports")
-                        .HasForeignKey("PersonId");
+                    b.Navigation("Person");
                 });
 
             modelBuilder.Entity("DirectoryApp.Domain.Entity.Person", b =>
                 {
                     b.Navigation("ContactInfos");
-
-                    b.Navigation("Reports");
                 });
 #pragma warning restore 612, 618
         }
