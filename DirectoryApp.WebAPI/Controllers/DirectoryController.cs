@@ -33,29 +33,29 @@ namespace DirectoryApp.WebAPI.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> CreatePerson(PersonCreateCommandRequest personCreateCommandRequest)
         {
-            var result = await _mediator.Send(personCreateCommandRequest);
-            return Ok(result);
+            await _mediator.Send(personCreateCommandRequest);
+            return Ok("Kişi eklendi.");
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeletePerson(PersonRemoveCommandRequest personRemoveCommandRequest)
         {
-            var result = await _mediator.Send(personRemoveCommandRequest);
-            return Ok(result);
+            await _mediator.Send(personRemoveCommandRequest);
+            return Ok("Kişi silindi.");
         }
 
         [HttpPost("[action]")]
         public async Task<IActionResult> CreateContactInfo(ContactInfoCreateCommandRequest contactInfoCreateCommandRequest)
         {
-            var result = await _mediator.Send(contactInfoCreateCommandRequest);
-            return Ok(result);
+            await _mediator.Send(contactInfoCreateCommandRequest);
+            return Ok("İletişim bilgisi eklendi.");
         }
 
         [HttpDelete("[action]")]
         public async Task<IActionResult> DeleteContactInfo(ContactInfoRemoveCommandRequest contactInfoRemoveCommandRequest)
         {
-            var result = await _mediator.Send(contactInfoRemoveCommandRequest);
-            return Ok(result);
+            await _mediator.Send(contactInfoRemoveCommandRequest);
+            return Ok("İletişim bilgisi silindi.");
         }
 
         [HttpGet("[action]")]

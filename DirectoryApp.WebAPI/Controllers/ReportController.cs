@@ -23,7 +23,7 @@ namespace DirectoryApp.WebAPI.Controllers
             _methodConsumer = methodConsumer;
         }
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateReportInvoke(ReportCreateCommandRequest reportCreateCommandRequest)
+        public async Task<IActionResult> CreateReportRequest(ReportCreateCommandRequest reportCreateCommandRequest)
         {
             var jsonText = JsonConvert.SerializeObject(reportCreateCommandRequest);
 
