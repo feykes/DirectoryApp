@@ -22,22 +22,15 @@ namespace DirectoryApp.WebAPI.Controllers
             _rabbitmqService = rabbitmqService;
             _methodConsumer = methodConsumer;
         }
-        //[HttpPost("[action]")]
-        //public async Task<IActionResult> CreateReportInvoke(ReportCreateCommandRequest reportCreateCommandRequest)
-        //{
-        //    var jsonText = JsonConvert.SerializeObject(reportCreateCommandRequest);
-
-        //    _rabbitmqService.PublishToQueue(jsonText);
-        //    _methodConsumer.StartConsuming();
-
-        //    return Ok("Rapor talebi alındı.");
-        //}
-
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateReport(ReportCreateCommandRequest reportCreateCommandRequest)
+        public async Task<IActionResult> CreateReportInvoke(ReportCreateCommandRequest reportCreateCommandRequest)
         {
-            await _mediator.Send(reportCreateCommandRequest);
-            return Ok();
+            var jsonText = JsonConvert.SerializeObject(reportCreateCommandRequest);
+
+            _rabbitmqService.PublishToQueue(jsonText);
+            _methodConsumer.StartConsuming();
+
+            return Ok("Rapor talebi alındı.");
         }
 
         [HttpGet("[action]")]
