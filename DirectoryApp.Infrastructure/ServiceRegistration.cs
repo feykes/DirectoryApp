@@ -8,6 +8,7 @@ namespace DirectoryApp.Infrastructure
         public static void AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddSingleton<RabbitMQService>();
+            services.AddSingleton<MethodConsumer>();
         }
     }
 }

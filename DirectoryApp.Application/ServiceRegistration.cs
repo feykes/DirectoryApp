@@ -4,7 +4,6 @@ using DirectoryApp.Application.Mappings.PersonDetailMap;
 using DirectoryApp.Application.Mappings.PersonMap;
 using DirectoryApp.Application.Mappings.ReportDetailMap;
 using DirectoryApp.Application.Mappings.ReportMap;
-using DirectoryApp.Infrastructure.RabbitMQ;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,7 +31,6 @@ namespace DirectoryApp.Application
                     new ReportDetailProfile()
                 });
             });
-            services.AddScoped<MethodConsumer>();
         }
     }
 }

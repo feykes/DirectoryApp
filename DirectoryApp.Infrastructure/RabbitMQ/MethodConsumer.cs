@@ -1,23 +1,20 @@
-﻿using DirectoryApp.Application;
-using DirectoryApp.Application.Features.Commands.Report.ReportCreate;
-using DirectoryApp.Application.Repositories;
+﻿using DirectoryApp.Application.Features.Commands.Report.ReportCreate;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Net.Http;
 using System.Text;
-using System.Threading;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace DirectoryApp.Infrastructure.RabbitMQ
 {
     public class MethodConsumer : IDisposable
     {
         private readonly IModel _channel;
-        private readonly IMediator _mediator;
+        private readonly IServiceProvider _serviceProvider;
 
-        public MethodConsumer(IMediator mediator)
+        public MethodConsumer(IServiceProvider serviceProvider)
         {
             var factory = new ConnectionFactory
             {
@@ -30,7 +27,7 @@ namespace DirectoryApp.Infrastructure.RabbitMQ
             _channel = connection.CreateModel();
 
             _channel.QueueDeclare(queue: "method_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
-            _mediator = mediator;
+            _serviceProvider = serviceProvider;
         }
 
         public void StartConsuming()
@@ -38,13 +35,18 @@ namespace DirectoryApp.Infrastructure.RabbitMQ
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += async (model, ea) =>
             {
-                var body = ea.Body.ToArray();
-                var stringLocation = Encoding.UTF8.GetString(body);
-                var request = JsonConvert.DeserializeObject<ReportCreateCommandRequest>(stringLocation);
+                using (var scope = _serviceProvider.CreateScope())
+                {
+                    var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                    var body = ea.Body.ToArray();
+                    var stringLocation = Encoding.UTF8.GetString(body);
+                    var request = JsonConvert.DeserializeObject<ReportCreateCommandRequest>(stringLocation);
 
-                await _mediator.Send(request);
+                    await mediator.Send(request);
 
-                _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    _channel.BasicAck(ea.DeliveryTag, false);
+                }
+
             };
 
             _channel.BasicConsume(queue: "method_queue", autoAck: false, consumer: consumer);
